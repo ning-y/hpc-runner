@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import argparse, sys
+
+def main():
+    args = get_args()
+    clone_repository(args)
+    download_locally(args)
+    transfer_to_hpc(args)
+    start_run_on_hpc(args)
+    cleanup_locally(args)
+
+def get_args():
+    parser = get_parser()
+    return parser.parse_args()
+
+def clone_repository(args):
+    pass
+
+def download_locally(args):
+    pass
+
+def transfer_to_hpc(args):
+    pass
+
+def start_run_on_hpc(args):
+    pass
+
+def cleanup_locally(args):
+    pass
+
+def get_parser():
+    parser = ArgumentParserPrintHelpWhenError(
+        prog="hpc-runner",
+        description="Run bandwidth-heavy jobs locally, transfer files to HPC, "
+            "and run remaining jobs on the HPC")
+    parser.add_argument("repo_url", type=str)
+    parser.add_argument("local_dir_to_clone_to", type=str, default="~/repos/{}")
+    return parser
+
+# Adapted from https://stackoverflow.com/a/4042861
+class ArgumentParserPrintHelpWhenError(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('error: %s\n' % message)
+        self.print_help()
+        sys.exit(2)
+
+if __name__ == "__main__": main()
