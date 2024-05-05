@@ -35,7 +35,23 @@ def get_parser():
         description="Run bandwidth-heavy jobs locally, transfer files to HPC, "
             "and run remaining jobs on the HPC")
     parser.add_argument("repo_url", type=str)
-    parser.add_argument("local_dir_to_clone_to", type=str, default="~/repos/{}")
+    parser.add_argument(
+        "local_dir_to_clone_to", nargs="?", type=str,
+        default="~/runs/{repo_name}-{repo_ref}")
+    parser.add_argument(
+        "command_download", nargs="?", type=str,
+        default="snakemake --profile config/ --coeres 1 predownload")
+    parser.add_argument(
+        "remote_address_to_clone_to", nargs="?", type=str,
+        default="dtn:/mnt/oneFS/behmoaras/home/"
+            "e0175719/runs/{repo_name}-{repo_ref}")
+    parser.add_argument(
+        "remote_address_to_run", nargs="?", type=str,
+        default="hpc:/data/behmoaras/home/"
+            "e0175719/runs/{repo_name}-{repo_ref}")
+    parser.add_argument(
+        "command_run", nargs="?", type=str,
+        default="conda activate snakemake && snakemake --profile config/")
     return parser
 
 # Adapted from https://stackoverflow.com/a/4042861
