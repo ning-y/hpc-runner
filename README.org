@@ -1,0 +1,14 @@
+#+title: hpc-runner
+
+* Apptainer
+
+There is an Apptainer definition file for i386.
+It should be easily modifiable to support more common architectures.
+
+#+begin_example bash
+apptainer build --force hpc-runner.sif apptainer.def
+#+end_example
+
+* Feature wishlist
+
+- fasterq-dump support, but sra-tools dependency ncbi-vdb does not support i386 ([[https://github.com/ncbi/ncbi-vdb/issues/146][ncbi/ncbi-vdb#146]]) nor 32-bit architectures entirely ([[https://github.com/ncbi/ncbi-vdb/issues/146][ncbi/ncbi-vdb#8]]); and the Debian i386 repository does not appear to have sra-toolkit which is otherwise present for e.g. [[https://packages.debian.org/bookworm/sra-toolkit][amd64]]
