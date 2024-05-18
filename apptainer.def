@@ -1,17 +1,17 @@
 BootStrap: docker
 From: i386/debian
 
-%ENVIRONMENT
-    export TZ=Asia/Singapore
+%arguments
+    VERSION_SNAKEMAKE=v7.32.3
 
 # The python library pulp must be pinned because otherwise it includes a
 # breaking change due to a rename of pulp.list_solvers to pulp.listSolvers.
 %post
     apt-get -y update
-    DEBIAN_FRONTEND=noninteractive \
-        apt-get -y install git python3 python3-pip python3-pandas
+    DEBIAN_FRONTEND=noninteractive TZ=Asia/Singapore \
+        apt-get -y install git python3 python3-pip python3-pandas rsync wget
     git clone https://github.com/snakemake/snakemake /snakemake
-    cd /snakemake && git checkout v7.32.3 && \
+    cd /snakemake && git checkout {{ VERSION_SNAKEMAKE }} && \
         mv setup.cfg old.setup.cfg && \
         sed -e "s/pulp.*/pulp >=2.0,<2.8/" old.setup.cfg > setup.cfg && \
         pip3 install --break-system-packages -e .

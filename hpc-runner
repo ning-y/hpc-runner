@@ -60,10 +60,11 @@ def transfer_to_hpc(args):
         raise
 
 def start_run_on_hpc(args):
-    pass
-
-def cleanup_locally(args):
-    pass
+    remote_address = expand_remote_address_to_run(args)
+    hostname = remote_address.split(":")[0]
+    remote_dirp = remote_address.split(":")[1]
+    cmd = ["ssh", hostname, f"bash -i -c 'cd {remote_dirp} && {args.command_run}'"]
+    subprocess.run(cmd, check=True)
 
 def get_parser():
     parser = ArgumentParserPrintHelpWhenError(
@@ -98,6 +99,9 @@ def expand_local_dir_to_clone_to(args) -> str:
 
 def expand_remote_address_to_clone_to(args) -> str:
     return expand_dir(args.remote_address_to_clone_to, args)
+
+def expand_remote_address_to_run(args) -> str:
+    return expand_dir(args.remote_address_to_run, args)
 
 def expand_dir(template: str, args) -> str:
     return os.path.expanduser(
