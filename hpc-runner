@@ -63,7 +63,7 @@ def start_run_on_hpc(args):
     remote_address = expand_remote_address_to_run(args)
     hostname = remote_address.split(":")[0]
     remote_dirp = remote_address.split(":")[1]
-    cmd = ["ssh", hostname, f"bash -i -c 'cd {remote_dirp} && {args.command_run}'"]
+    cmd = ["ssh", hostname, f"bash -ilc 'cd {remote_dirp} && {args.command_run}'"]
     subprocess.run(cmd, check=True)
 
 def get_parser():
