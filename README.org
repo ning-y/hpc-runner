@@ -1,5 +1,38 @@
 #+title: hpc-runner
 
+* Examples
+
+Compile and run with defaults,
+
+#+begin_example bash
+apptainer build --force hpc-runner.sif apptainer.def &&
+  ./hpc-runner.sif git@github.com:ning-y/xtlr7 bf467f4
+#+end_example
+
+Compile and run with specific Snakemake targets,
+
+#+begin_example bash
+apptainer build --force hpc-runner.sif apptainer.def &&
+  ./hpc-runner.sif git@github.com:ning-y/xtlr7 360c647 \
+    --command-run "conda activate snakemake && snakemake --profile config/ results/900-tables.xlsx"
+#+end_example
+
+Continuously run the latest tag of a git repository,
+
+#+begin_example bash
+# Customize the next two lines as appropriate
+REPO_URL=git@github.com:ning-y/xtlr7
+REPO_LOCAL_DIR=~/repos/xtlr7
+# Build the Apptainer image
+apptainer build --force hpc-runner.sif apptainer.def
+# Clone a local repository from which the latest tag is inferred
+[[ -d $REPO_LOCAL_DIR ]] || git clone $REPO_URL $REPO_LOCAL_DIR
+# Keep running with latest tag
+while true; do ./hpc-runner.sif $REPO_URL \
+  $(git -C $REPO_LOCAL_DIR pull --tags --quiet &&
+    git -C $REPO_LOCAL_DIR describe --tags --abbrev=0); done
+#+end_example
+
 * Apptainer
 
 There is an Apptainer definition file for i386.

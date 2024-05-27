@@ -43,7 +43,8 @@ def transfer_to_hpc(args):
     cmd_mkdir = ["ssh", hostname, "mkdir", "--parents", remote_dirp]
     cmd_rsync = [
         "rsync", "--archive", "--checksum", "--progress", "--verbose",
-        *glob.glob(os.path.join(local_dir, "*")), remote_address]
+        *glob.glob(os.path.join(local_dir, "*"), include_hidden=True),
+        remote_address]
     tries = 1
     while tries <= args.max_tries:
         tries += 1
@@ -76,21 +77,21 @@ def get_parser():
     parser.add_argument("repo_url", type=str)
     parser.add_argument("repo_ref", type=str)
     parser.add_argument(
-        "local_dir_to_clone_to", nargs="?", type=str,
+        "--local-dir-to-clone-to", type=str,
         default="~/runs/{repo_name}-{repo_ref}")
     parser.add_argument(
-        "command_download", nargs="?", type=str,
+        "--command-download", type=str,
         default="snakemake --profile config-predownload/ predownload")
     parser.add_argument(
-        "remote_address_to_clone_to", nargs="?", type=str,
+        "--remote-address-to-clone-to", type=str,
         default="dtn:/mnt/oneFS/behmoaras/home/"
             "e0175719/runs/{repo_name}-{repo_ref}/")
     parser.add_argument(
-        "remote_address_to_run", nargs="?", type=str,
+        "--remote-address-to-run", type=str,
         default="hpc:/data/behmoaras/home/"
             "e0175719/runs/{repo_name}-{repo_ref}/")
     parser.add_argument(
-        "command_run", nargs="?", type=str,
+        "--command-run", type=str,
         default="conda activate snakemake && snakemake --profile config/")
     return parser
 
