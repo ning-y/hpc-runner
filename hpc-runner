@@ -8,7 +8,6 @@ def main():
     download_locally(args)
     transfer_to_hpc(args)
     start_run_on_hpc(args)
-    cleanup_locally(args)
 
 def get_args():
     parser = get_parser()

@@ -28,7 +28,9 @@ apptainer build --force hpc-runner.sif apptainer.def
 # Clone a local repository from which the latest tag is inferred
 [[ -d $REPO_LOCAL_DIR ]] || git clone $REPO_URL $REPO_LOCAL_DIR
 # Keep running with latest tag
-while true; do ./hpc-runner.sif $REPO_URL \
+while true; do ./hpc-runner.sif \
+  --command-run "conda activate snakemake && snakemake --profile config/ --jobs 5" \
+  $REPO_URL \
   $(git -C $REPO_LOCAL_DIR pull --tags --quiet &&
     git -C $REPO_LOCAL_DIR describe --tags --abbrev=0); done
 #+end_example
