@@ -31,7 +31,7 @@ apptainer build --force hpc-runner.sif apptainer.def
 while true; do ./hpc-runner.sif \
   --command-run "conda activate snakemake && snakemake --profile config/ --jobs 5" \
   $REPO_URL \
-  $(git -C $REPO_LOCAL_DIR pull --tags --quiet &&
+  $(git -C $REPO_LOCAL_DIR pull origin main --tags --quiet &&
     git -C $REPO_LOCAL_DIR describe --tags --abbrev=0); done
 #+end_example
 
