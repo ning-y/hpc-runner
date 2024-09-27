@@ -1,5 +1,6 @@
 BootStrap: docker
-From: i386/debian
+From: debian
+# Support for other architectures possible e.g. From: i386/debian
 
 %arguments
     VERSION_SNAKEMAKE=v7.32.3

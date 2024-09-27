@@ -37,9 +37,6 @@ while true; do ./hpc-runner.sif \
 
 * Apptainer
 
-There is an Apptainer definition file for i386.
-It should be easily modifiable to support more common architectures.
-
 #+begin_example bash
 apptainer build --force hpc-runner.sif apptainer.def
 #+end_example
